@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+
+{% block mystylesheet %}
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css" />
+    <script language="javascript" src="/static/js/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style-icon-images.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/static/js/codebase/dhtmlxcalendar.css"></link>
+    <link rel="stylesheet" type="text/css" href="/static/js/codebase/skins/dhtmlxcalendar_dhx_skyblue.css"></link>
+{% endblock mystylesheet %}
+
+{% block myjavascript %}
+    <script src="/static/js/codebase/dhtmlxcalendar.js"></script>
+    <script language="javascript" src="/static/js/myutils.js"></script>
+    <script>
+        var myCalendar;
+        function doOnLoad() {
+            myCalendar = new dhtmlXCalendarObject(["id_fecha_inicio"]);
+            myCalendar.setDateFormat("%Y-%m-%d");
+            myCalendar2 = new dhtmlXCalendarObject(["id_fecha_fin"]);
+            myCalendar2.setDateFormat("%Y-%m-%d");
+        }
+    </script>
+{% endblock myjavascript %}
+
+{% block bodystuff %}
+    onload="doOnLoad();"
+{% endblock %}
+
+{% block main %}
+    <div class="eventos-content">
+        <div class="form-nuevo-evento">
+            <form action="/social/nueva/" method="post" enctype="multipart/form-data">{% csrf_token %}
+                <table class="new-evento-table">
+                    {{ form.as_table}}
+                </table>
+                <input type="submit" value="Crear" />
+            </form>
+        </div>
+    </div>
+{% endblock main %}
+
+{% block crear %}
+{% endblock %}

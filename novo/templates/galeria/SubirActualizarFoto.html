@@ -1,0 +1,9 @@
+{% extends 'BaseGaleria.html' %}
+
+{% block maincontent %}
+    <form enctype="multipart/form-data" method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+        <a class='btn' href="{% url 'lista-fotos' %}">Cancel</a>
+    </form>
+{% endblock maincontent%}

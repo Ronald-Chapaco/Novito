@@ -1,0 +1,11 @@
+{% extends 'BaseGaleria.html' %}
+{% load static %}
+
+{% block maincontent %}
+    <form action="" method="post">{% csrf_token %}
+        <p><h4>Esta Seguro de Eliminar => "{{ object.titulo }}" ?</h4></p>
+        <img src="{% static object.foto.url %}" style="width:550px;height:420px"/>
+        <input type="submit" value="Confirmar" />
+        <a class='btn' href="{% url 'lista-fotos' %}">Cancel</a>
+    </form>
+{% endblock maincontent %}

@@ -48,7 +48,12 @@ INSTALLED_APPS = (
     'novo.apps.questions',
     'novo.apps.search',
     'novo.apps.usu',
+    'novo.apps.galeria',
+    'novo.apps.evento',
+    'novo.apps.prod',
     'captcha',
+    'bootstrap3',
+    'django_extensions',
 
 )
 

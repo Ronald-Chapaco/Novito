@@ -1,0 +1,19 @@
+{% extends 'BaseGaleria.html' %}
+
+{% block section %}
+    <h2>Category</h2>
+    <hr>
+{% endblock section %}
+
+{% block maincontent %}
+    <div>
+        {% for c in object_list %}
+            <a href="{% url 'cat-detalle' c.pk %}">
+            <ul>
+            <span class="glyphicon glyphicon-book"></span>
+            <button type="button" class="btn btn-primary btn-xs">{{ c.nombre }}	</button>
+            </ul>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock maincontent %}

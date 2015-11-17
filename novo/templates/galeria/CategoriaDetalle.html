@@ -1,0 +1,32 @@
+{% extends 'BaseGaleria.html' %}
+{% load static %}
+
+{% block section %}
+    <h2>{{ object.nombre }}</h2>
+    <hr>
+{% endblock section %}
+
+{% block maincontent %}
+<div>
+    <table border="1px">
+        <tr>
+            {% for p in object.fotos_set.all %}
+
+                <div class="col-lg-2">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            {{ p.titulo }}
+                        </div>
+                        <div class="panel-body">
+                            <a href="{% url "foto-detalle" p.id %}">
+                            <img class="img-thumbnail"  src="{% static p.foto.url %}" style="width:190px;height:200px"/>
+                        </div>
+                    </div>
+                </div>
+
+
+            {% endfor %}
+        </tr>
+    </table>
+</div>
+{% endblock maincontent %}

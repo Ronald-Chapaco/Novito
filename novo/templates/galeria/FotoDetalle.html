@@ -1,0 +1,61 @@
+{% extends 'BaseGaleria.html' %}
+{% load static %}
+
+
+{% block section %}
+    <h2>
+        {% if object.categoria_id %}
+            ( <a href="{% url "cat-detalle" object.categoria_id %}">{{ object.categoria }}</a> )
+        {% endif %}
+    </h2>
+    <hr>
+{% endblock section %}
+
+{% block maincontent %}
+<div>
+
+    <div class="col-lg-8">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+            <h2>
+                {{ object.titulo }}
+                {% if object.favorito %}
+                    &#9733;
+                {% else %}
+                    &#9734;
+                {% endif %}
+            </h2>
+
+                <a href="{% url "actualizar-foto" object.id %}">Editar</a>
+                <a href="{% url "borrar-foto" object.id %}">Eliminar</a>
+            </div>
+            <div class="panel-body">
+                <img src="{% static object.foto.url %}"  style="width:550px;height:420px"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+            <h3>
+                    comentarios
+            </h3>
+            </div>
+            <form action="" method="post">{%csrf_token%}
+                <div class="panel-body">
+                    <textarea class="form-control" id="id_contenido" name="contenido" rows="3"></textarea>
+                    <input type="submit" value="enviar"/>
+                </div>
+                <div class="panel-body">
+                    {% for p in object.comentario_set.all %}
+                        <div >
+                                {{ p.user }}=>
+                                {{ p.contenido }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock maincontent %}

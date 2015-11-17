@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Rueda de Negocio
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive table-bordered">
+                                <table class="table table-hover">
+                                {% if ruda %}
+                                    <tbody>
+                                            <div class=''>
+                                            <div class=''><img src="{{ ruda.imagen.url }}" alt="Imagen de Evento" /></div>
+                                            </div>
+                                        <tr>
+                                            <div class='evento-fields'>
+                                                <div class='evento-label'>Titulo</div>
+                                                <div class='evento-field'>{{ ruda.titulo }}</div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </tr>
+                                        <tr>
+                                            <div class='evento-fields'>
+                                                <div class='evento-label'>¿De que se trata?</div>
+                                                <div class='evento-field'>{{ ruda.descripcion }}</div>
+                                                <div class="clear"></div>
+                                            </div>
+
+                                        </tr>
+                                        <tr>
+                                            <div class='evento-fields'>
+                                                <div class='evento-label'>¿Cuando es?</div>
+                                                <div class='evento-field'>{{ ruda.fecha_inicio }}</div>
+                                                <div class="clear"></div>
+                                            </div>    
+                                        </tr>
+                                        <tr>
+                                            <div class='evento-fields'>
+                                                <div class='evento-label'>¿Cuando terminassss?</div>
+                                                <div class='evento-field'>{{ ruda.fecha_fin }}</div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </tr>
+                                        <tr>
+                                            <div class='evento-fields'>
+                                                <div class='evento-label'>¿Donde?</div>
+                                                <div class='evento-field'>{{ ruda.lugar }}</div>
+                                                <div class="clear"></div>
+                                        </tr>
+                                        <tr>
+                                            <div class='evento-fields'>
+                                                <div class='evento-label'>¿Cuanto Cuesta?</div>
+                                                <div class='evento-field'>{{ ruda.precio }} Bs</div>
+                                                <div class="clear"></div>
+                                        </tr>
+                                        <tr>
+                                            <div class='evento-fields'>
+                                                <div class='evento-label'>¿Contactos para mas Referencias?</div>
+                                                <div class='evento-field'>{{ ruda.contacto }}</div>
+                                                <div class="clear"></div>
+                                        </tr>
+                                        <tr>
+                                            <div class='evento-fields'>
+                                                <div class='evento-label'>Sectores de interes</div>
+                                                <div class='evento-field'>
+                                                    <ul>
+                                                    {% for sectores in ruda.tipo.all %}
+                                                        <li>
+                                                            <div class='invitados'>
+                                                                {{ sectores }}
+                                                            </div>
+                                                        </li>
+                                                    {% endfor %}
+                                                    </ul>
+
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </tr>
+                                        {% if creador %}
+                                            <div class='evento-editar-btn'>
+                                                <a href="/social/evento/edit/{{ evento.id }}"><div class="evento-editar">editar</div></a>
+                                            </div>
+                                        {% endif %}
+                                    </tbody>
+                                {% else %}
+                                    <div>No existe este evento</div>
+                                {% endif %}    
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+            </div>
+{% endblock main     %}
+
+{% block crear %}
+    <a href="/social/nuevo/"><div class="new-item-buttom">Crear Evento</div></a>
+{% endblock %}

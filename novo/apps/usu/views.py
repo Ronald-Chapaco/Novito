@@ -23,7 +23,7 @@ def home(request):
 @login_required
 def network(request):
     users_list = User.objects.filter(is_active=True).order_by('username')
-    paginator = Paginator(users_list, 100)
+    paginator = Paginator(users_list, 50)
     page = request.GET.get('page')
     try:
         users = paginator.page(page)
