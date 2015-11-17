@@ -1,0 +1,23 @@
+{% load i18n %}
+<hr>
+<span class="pull-right text-muted" id="comment-helper" style="display: none"><small>{% trans 'Press Ctrl + Enter to post' %}</small></span>
+<h4><span class="comment-count">{{ evento.get_comments_evento.count }}</span> {% trans 'Comments' %}</h4>
+<div class="post-comment clearfix">
+  <form role="form" id="comment-form">
+    {% csrf_token %}
+    <input type="hidden" name="evento" value="{{ evento.pk }}">
+    <div class="user-portrait clearfix">
+      <img src="{{ user.profile.get_picture }}">
+    </div>
+    <div class="comment-input clearfix">
+      <textarea class="form-control" rows="1" placeholder="{% trans 'Escribe el comenteario...' %}" name="comment" id="comment"></textarea>
+    </div>
+  </form>
+</div>
+<div class="well well-sm" id="comment-list">
+  {% for comment in evento.get_comments_evento %}
+    {% include 'evento/partial_evento_comment.html' with comment=comment %}
+  {% empty %}
+    <div style="padding: .6em 0">{% trans 'See el primero en comentar!' %}</div>
+  {% endfor %}
+</div>

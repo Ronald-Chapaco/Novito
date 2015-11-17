@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 class Rubro(models.Model):
@@ -85,6 +86,23 @@ class Evento(models.Model):
     def __unicode__(self):
         return self.descripcion
 
+    def get_comments_evento(self):
+        return EventoComment.objects.filter(evento=self)
+
+class EventoComment(models.Model):
+    evento = models.ForeignKey(Evento)
+    comment = models.CharField(max_length=500)
+    date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User)
+
+    class Meta:
+        verbose_name = _("Evento Comment")
+        verbose_name_plural = _("Evento Comments")
+        ordering = ("date",)
+
+    def __unicode__(self):
+        return u'{0} - {1}'.format(self.user.username, self.evento.descripcion)  
+
 
 class TipoSector(models.Model):
     titulo = models.CharField(max_length=30)
@@ -121,7 +139,22 @@ class Rueda(models.Model):
     def __unicode__(self):
         return self.titulo
 
+    def get_comments_rueda(self):
+        return RuedaComment.objects.filter(rueda=self)
+
+
+class RuedaComment(models.Model):
+    rueda = models.ForeignKey(Rueda)
+    comment = models.CharField(max_length=500)
+    date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User)
+
+    class Meta:
+        verbose_name = _("Rueda Comment")
+        verbose_name_plural = _("Rueda Comments")
+        ordering = ("date",)
+
+    def __unicode__(self):
+        return u'{0} - {1}'.format(self.user.username, self.rueda.descripcion) 
 
     # TODO: Define custom methods here
-
-    

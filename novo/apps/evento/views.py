@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 from itertools import chain
 from operator import attrgetter
 import datetime
-
+from django.contrib.auth.decorators import login_required
+from novo.decorators import ajax_required
 from .forms import *
 from .models import *
 #from fanme.support.models import Notificacion
@@ -32,7 +33,7 @@ def eventos(request):
         eventos_invitado = []
     temp = RequestContext(request, {'eventos_creados': eventos_creados,
         'eventos_invitado': eventos_invitado, 'form_search': searchbox})
-    return render_to_response('social/eventos.html', temp)
+    return render_to_response('evento/eventos.html', temp)
 
 
 def new_evento(request):
@@ -75,7 +76,7 @@ def evento(request, evento_id):
         evento = []
     temp = RequestContext(request, {'form_search': searchbox, 'evento': evento,
         'creador': creador})
-    return render_to_response('social/evento.html', temp)
+    return render_to_response('evento/evento.html', temp)
 
 
 def edit_evento(request, evento_id):
@@ -124,6 +125,27 @@ def delete_evento(request, evento_id):
     return render_to_response('social/edit_evento.html', template_vars)
 
 
+def commentevento(request):
+    try:
+        if request.method == 'POST':
+            evento_id = request.POST.get('evento')
+            evento = Evento.objects.get(pk=evento_id)
+            comment = request.POST.get('comment')
+            comment = comment.strip()
+            if len(comment) > 0:
+                evento_comment = EventoComment(user=request.user, evento=evento, comment=comment)
+                evento_comment.save()
+            html = u''
+            for comment in evento.get_comments_evento():
+                html = u'{0}{1}'.format(html, render_to_string('evento/partial_evento_comment.html', {'comment': comment}))
+            return HttpResponse(html)
+        else:
+            return HttpResponseBadRequest()
+    except Exception, e:
+        return HttpResponseBadRequest()
+
+
+
 
 def ruedas(request):
     searchbox = SearchBox()
@@ -134,7 +156,7 @@ def ruedas(request):
         ruedas_creados = []
     temp = RequestContext(request, {'ruedas_creados': ruedas_creados,
         'form_search': searchbox})
-    return render_to_response('social/ruedas.html', temp)
+    return render_to_response('evento/ruedas.html', temp)
 
 
 def new_rueda(request):
