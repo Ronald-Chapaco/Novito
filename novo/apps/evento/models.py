@@ -101,7 +101,7 @@ class EventoComment(models.Model):
         ordering = ("date",)
 
     def __unicode__(self):
-        return u'{0} - {1}'.format(self.user.username, self.evento.descripcion)  
+        return u'{0} - {1}'.format(self.user.username, self.evento.descripcion)
 
 
 class TipoSector(models.Model):

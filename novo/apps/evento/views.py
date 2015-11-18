@@ -124,7 +124,7 @@ def delete_evento(request, evento_id):
         'form_search': searchbox, 'evento': evento_db})
     return render_to_response('social/edit_evento.html', template_vars)
 
-
+@ajax_required
 def commentevento(request):
     try:
         if request.method == 'POST':
@@ -193,9 +193,9 @@ def rueda(request, rueda_id):
             creador = True
     except Rueda.DoesNotExist:
         ruda = []
-    temp = RequestContext(request, {'form_search': searchbox, 'ruda': ruda,
+    temp = RequestContext(request, {'form_search': searchbox, 'rueda': ruda,
         'creador': creador})
-    return render_to_response('social/rueda.html', temp)
+    return render_to_response('evento/rueda.html', temp)
 
 
 
@@ -226,7 +226,7 @@ def edit_rueda(request, rueda_id):
         #list_ids = request.user.followers.values_list('user', flat=True)
         # users = User.objects.all()
         # form.fields["invitados"].queryset = users
-    template_vars = RequestContext(request, {"form": form, 
+    template_vars = RequestContext(request, {"form": form,
         'form_search': searchbox, 'rueda': rueda_db})
     return render_to_response('social/edit_rueda.html', template_vars)
 
@@ -243,3 +243,24 @@ def delete_rueda(request, rueda_id):
     template_vars = RequestContext(request, {
         'form_search': searchbox, 'rueda': rueda_db})
     return render_to_response('social/edit_rueda.html', template_vars)
+
+
+@ajax_required
+def commentrueda(request):
+    try:
+        if request.method == 'POST':
+            rueda_id = request.POST.get('rueda')
+            rueda = Rueda.objects.get(pk=rueda_id)
+            comment = request.POST.get('comment')
+            comment = comment.strip()
+            if len(comment) > 0:
+                rueda_comment = RuedaComment(user=request.user, rueda=rueda, comment=comment)
+                rueda_comment.save()
+            html = u''
+            for comment in rueda.get_comments_rueda():
+                html = u'{0}{1}'.format(html, render_to_string('evento/partial_rueda_comment.html', {'comment': comment}))
+            return HttpResponse(html)
+        else:
+            return HttpResponseBadRequest()
+    except Exception, e:
+        return HttpResponseBadRequest()

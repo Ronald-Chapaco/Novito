@@ -3,8 +3,7 @@
 <span class="pull-right text-muted" id="comment-helper" style="display: none"><small>{% trans 'Press Ctrl + Enter to post' %}</small></span>
 <h4><span class="comment-count">{{ article.get_comments.count }}</span> {% trans 'Comments' %}</h4>
 <div class="post-comment clearfix">
-  <form role="form" id="comment-form">
-    {% csrf_token %}
+  <form role="form" id="comment-form">{% csrf_token %}
     <input type="hidden" name="article" value="{{ article.pk }}">
     <div class="user-portrait clearfix">
       <img src="{{ user.profile.get_picture }}">
